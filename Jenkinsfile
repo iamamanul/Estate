@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('build') {
+        stage('Build') {
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -11,12 +11,8 @@ pipeline {
             }
             steps {
                 sh '''
-                    ls -la
-                    node --version
-                    npm --version
                     npm ci --cache .npm-cache
                     npm run build
-                    ls -la
                 '''
             }
         }
@@ -29,22 +25,32 @@ pipeline {
             }
             steps {
                 sh '''
-                   echo "Running tests"
-                   npm test
-                   ls -la
+                    npm test
                 '''
             }
-        } 
-    }
-    post {
-        always {
-            junit '**/test-results.xml'
+            post {
+                always {
+                    junit 'junit.xml'
+                }
+            }
         }
+        stage('Deploy') {
+            steps {
+                sh '''
+                    # Example deployment step
+                    # Copy built files to a web server or deploy to a container
+                    echo "Deploying application..."
+                '''
+            }
+        }
+    }
+
+    post {
         success {
-            echo 'Build and tests completed successfully!'
+            echo 'Pipeline completed successfully!'
         }
         failure {
-            echo 'Build or tests failed.'
+            echo 'Pipeline failed.'
         }
     }
 }
