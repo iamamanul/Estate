@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 
 const DarkModeToggle = () => {
@@ -96,4 +97,4 @@ const DarkModeToggle = () => {
   );
 };
 
-export default DarkModeToggle; 
+export default DarkModeToggle;

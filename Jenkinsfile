@@ -31,8 +31,20 @@ pipeline {
                 sh '''
                    echo "Running tests"
                    npm test
+                   ls -la
                 '''
             }
         } 
+    }
+    post {
+        always {
+            junit '**/test-results.xml'
+        }
+        success {
+            echo 'Build and tests completed successfully!'
+        }
+        failure {
+            echo 'Build or tests failed.'
+        }
     }
 }
